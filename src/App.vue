@@ -1,28 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>Raw Data</p>
+    <textarea v-model="rawData" placeholder=""></textarea>
+    <p>Found Codes:</p>
+    <p>{{ codes.sort().join(",") }}</p>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  computed: {
+    codes() {
+      if (this.rawData.length == 0) return [];
+      const codes = this.rawData.match(/(FRIEND-\w*)|(THANKS-\w*)/g);
+      return [...new Set(codes)];
+    },
+  },
+  data() {
+    return {
+      rawData: "",
+    };
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
